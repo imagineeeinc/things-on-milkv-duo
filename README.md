@@ -1,6 +1,6 @@
 # Things on on Milk V duo
 
-This is a guide/ write up on getting things working on the the Milk V duo working. This repo is mainly looking into getting software and programming languages runnning on the default buildroot system.
+This is a guide/ write up on getting things working on the the Milk V Duo. This repo is mainly looking into getting software and programming languages runnning on the default buildroot system.
 
 ## OS Image requirements
 
