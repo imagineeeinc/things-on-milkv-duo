@@ -40,7 +40,7 @@ I would like to get the other working, but as of now the wasm3 is the easiest to
 [Wasm3](https://github.com/wasm3/wasm3) is a fast WASM runtime with wasi support. Compiling a cli tool is quite simple as using the included cli example.
 
 Simpily setup the toolcahin ([from before](#compiling-for-duo)) and run `make` in the `/platforms/openwrt/build` (actual cli code is in `platforms/app`, and interpreter in `/source`), no modifications required.
-If you try running the resulting `wasm3` binary on your platform you will get an error, but copying to the MilkV and trying will result in the application giving you a proper message.
+If you try running the resulting `wasm3` binary on your host platform you will get an error, but copying to the MilkV and trying will result in the application giving you a proper message.
 
 ### Trying out programs
 
@@ -53,7 +53,29 @@ Fisrt thing I compiled to webassembly and uploaded to the MilkV and it worked. I
 
 ## Nim on Milk V Duo
 
-*TODO*
+The Nim compiler supports custom compilers. So I used the risv64 toolchain as my compiler by adding a `config.nim` to the root of my nimble directory and adding this config:
+```nim
+switch("cc", "gcc")
+switch("gcc.exe", "host-tools/gcc/riscv64-linux-musl-x86_64/bin/riscv64-unknown-linux-musl-gcc")
+switch("gcc.linkerexe", "host-tools/gcc/riscv64-linux-musl-x86_64/bin/riscv64-unknown-linux-musl-gcc")
+```
+or if you want to pass it as flags to the compiler.
+```bash
+# Nimble
+nimble build --cc:gcc \
+--gcc.exe=./host-tools/gcc/riscv64-linux-musl-x86_64/bin/riscv64-unknown-linux-musl-gcc \
+--gcc.linkerexe=./host-tools/gcc/riscv64-linux-musl-x86_64/bin/riscv64-unknown-linux-musl-gcc
+
+# Nim
+nim c --cc:gcc \
+--gcc.exe=./host-tools/gcc/riscv64-linux-musl-x86_64/bin/riscv64-unknown-linux-musl-gcc \
+--gcc.linkerexe=./host-tools/gcc/riscv64-linux-musl-x86_64/bin/riscv64-unknown-linux-musl-gcc
+```
+In the examples above, if your toolchain isn't sotred in the same directory as the code. Pass the exact path of the toolchain location.
+
+This produces an executable that will not run on the host system. However when copied to the MilkV also dosen't run.
+
+So right now I am stuck on this.
 
 ## Rust on Milk V Duo
 
