@@ -16,6 +16,8 @@ This is a guide/ write up on getting things working on the the Milk V Duo. This 
 
 All of my testing is done on [Milk V Duo Buildroot V1](https://github.com/milkv-duo/duo-buildroot-sdk) on the Milk V Duo 64mb. These should also work on the [Buildroot V2](https://github.com/milkv-duo/duo-buildroot-sdk-v2), but I haven't tested them.
 
+**Note**: I am using V1 as that is the only one I was able to build with a larger sd card image size. As I wasn't able to expand the root parition after boot and wasn't able to get the V2 to compile with the larger size.
+
 ## Compiling for Milk V Duo
 
 So far we need to use a riscv64-musl toolchain to compile C programs. It is easy to setup with the included [setup script](https://github.com/milkv-duo/duo-examples/blob/main/envsetup.sh) in the [examples repo](https://github.com/milkv-duo/duo-examples) from Milk V.
@@ -32,6 +34,13 @@ Here is the custom `CFLAGS` if you want to hardcode it:
 -mcpu=c906fdv -march=rv64imafdcv0p7xthead -mcmodel=medany -mabi=lp64d -O3 -DNDEBUG -I/workspace/wasm3/platforms/openwrt/build/include/system
 ```
 **Note**: This is only for the Milk V Duo 64mb version. For other models, look at the [setup script](https://github.com/milkv-duo/duo-examples/blob/main/envsetup.sh) for their respective flags.
+
+## Acquiring Other Compilers
+
+I have found some other compilers that might also work, I haven't tested them:
+- [toolchains.bootlin.com/releases_riscv64.html](https://toolchains.bootlin.com/releases_riscv64.html): Ensure to get the `musl` version if you are compiling for the default buildroot os. 
+- [github.com/riscv-collab/riscv-gnu-toolchain](https://github.com/riscv-collab/riscv-gnu-toolchain): Under the [releases](https://github.com/riscv-collab/riscv-gnu-toolchain/releases) section get the latest `riscv64-musl-ubuntu-*` version.
+- [github.com/ejortega/milkv-host-tools  ](https://github.com/ejortega/milkv-host-tools): Under the [releases](https://github.com/ejortega/milkv-host-tools/releases) section get the toolchain for your host platform. The only one with arm64 version.
 
 ## C on Milk V Duo
 
