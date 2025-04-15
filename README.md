@@ -2,16 +2,18 @@
 
 This is a guide/ write up on getting things working on the the Milk V Duo. This repo is mainly looking into getting software and programming languages runnning on the default buildroot system.
 
-## OS Image requirements
-
-All of my testing is done on [Milk V Duo Buildroot V1](https://github.com/milkv-duo/duo-buildroot-sdk) on the Milk V Duo 64mb. These should also work on the [Buildroot V2](https://github.com/milkv-duo/duo-buildroot-sdk-v2), but I haven't tested them.
-
 ## Contents
 
+- [Image Requirements](#os-image-requirements)
 - [Compilers for Duo](#compiling-for-duo)
 - [WASM on Duo](#wasm-on-milk-v-duo)
 - [Nim on Duo](#nim-on-milk-v-duo)
 - [Rust on Duo](#rust-on-milk-v-duo)
+- [Contributing](#contributing)
+
+## OS Image requirements
+
+All of my testing is done on [Milk V Duo Buildroot V1](https://github.com/milkv-duo/duo-buildroot-sdk) on the Milk V Duo 64mb. These should also work on the [Buildroot V2](https://github.com/milkv-duo/duo-buildroot-sdk-v2), but I haven't tested them.
 
 ## Compiling for Duo
 
@@ -56,3 +58,7 @@ Fisrt thing I compiled to webassembly and uploaded to the MilkV and it worked. I
 ## Rust on Milk V Duo
 
 [github.com/ejortega/milkv-duo-rust](https://github.com/ejortega/milkv-duo-rust)
+
+## Contributing
+
+If you would like to contribute your knowledge to this repo, open a pull request with the any modifications in it. Or open an issue and provide any info there.
