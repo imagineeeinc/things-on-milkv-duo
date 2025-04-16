@@ -6,6 +6,8 @@ This is a guide/ write up on getting things working on the the Milk V Duo. This 
 
 - [Image Requirements](#os-image-requirements)
 - [Compilers for Duo](#compiling-for-milk-v-duo)
+  - [C Flags](#cflags)
+  - [Other Compiler](#acquiring-other-compilers) (**Status**: Non of them working ⛔)
 - [C on Duo](#wasm-on-milk-v-duo) (**Status**: Working, Offical Method ✅)
 - [WASM on Duo](#wasm-on-milk-v-duo) (**Status**: Working, more testing 🟨)
 - [Nim on Duo](#nim-on-milk-v-duo) (**Status**: Working, testing required ✅)
@@ -37,11 +39,17 @@ Here is the custom `CFLAGS` if you want to hardcode it:
 
 ## Acquiring Other Compilers
 
-I have found some other compilers that might also work, I haven't tested them:
-- [toolchains.bootlin.com/releases_riscv64.html](https://toolchains.bootlin.com/releases_riscv64.html): Ensure to get the `musl` version if you are compiling for the default buildroot os. 
-- [github.com/riscv-collab/riscv-gnu-toolchain](https://github.com/riscv-collab/riscv-gnu-toolchain): Under the [releases](https://github.com/riscv-collab/riscv-gnu-toolchain/releases) section get the latest `riscv64-musl-ubuntu-*` version.
-- [github.com/ejortega/milkv-host-tools  ](https://github.com/ejortega/milkv-host-tools): Under the [releases](https://github.com/ejortega/milkv-host-tools/releases) section get the toolchain for your host platform. The only one with arm64 version.
-
+I have found some other compilers that might also work, ~~I haven't tested them~~ and after testing I couldn't get any of them to work.
+- ⛔ [toolchains.bootlin.com/releases_riscv64.html](https://toolchains.bootlin.com/releases_riscv64.html): Ensure to get the `musl` version if you are compiling for the default buildroot os.
+  - **Cannot get this to work**, gives me error: `error: unrecognized command-line option ‘-mcpu=c906fdv’`, I need the this specific C Flag as that defines the CPU version of the Duo.
+  - Trying the [riscv64-lp64d](https://toolchains.bootlin.com/releases_riscv64-lp64d.html) version gives me diffrent error of `error: ‘-mcpu=c906fdv’: unknown CPU`.
+- ⛔ [github.com/riscv-collab/riscv-gnu-toolchain](https://github.com/riscv-collab/riscv-gnu-toolchain): Under the [releases](https://github.com/riscv-collab/riscv-gnu-toolchain/releases) section get the latest `riscv64-musl-ubuntu-*` version.4
+  - **Cannot get this to work**, gives me error: `lib/x86_64-linux-gnu/libc.so.6: version 'GLIBC_2.36' not found`
+- ⛔ [github.com/ejortega/milkv-host-tools  ](https://github.com/ejortega/milkv-host-tools): Under the [releases](https://github.com/ejortega/milkv-host-tools/releases) section get the toolchain for your host platform. The only one with arm64 version.
+  - **Cannot get this to work**, gives me error: `error: '-march=rv64imafdcv0p7xthead': extension 'xthead' starts with 'x' but is unsupported non-standard extension`
+  - Removing `xthead` from the `-march` flag, gives me error: `error: '-mcpu=c906fdv': unknown CPU`
+  - Removing the `-mcpu` flag leads to it compling but not having the correct linking, it has ` /lib/ld-musl-riscv64.so.1`, which will not run. (Correct one: `/lib/ld-musl-riscv64v0p7_xthead.so.1`)
+I think the official compiler has a custom extra config for that specific cpu.
 ## C on Milk V Duo
 
 This section isn't a guide. I am just accumlating info.
@@ -94,17 +102,17 @@ If you want to pass it as flags to the compiler.
 ```bash
 # Nimble
 nimble build --cc:gcc \
---gcc.exe="$(CC)" \
---gcc.linkerexe="$(CC)" \
---passC="$(CFLAGS)" \
---passL="$(CFLAGS)"
+--gcc.exe="$CC" \
+--gcc.linkerexe="$CC" \
+--passC="$CFLAGS" \
+--passL="$CFLAGS"
 
 # Nim
 nim c --cc:gcc \
---gcc.exe="$(CC)" \
---gcc.linkerexe="$(CC)" \
---passC="$(CFLAGS)" \
---passL="$(CFLAGS)"
+--gcc.exe="$CC" \
+--gcc.linkerexe="$CC" \
+--passC="$CFLAGS" \
+--passL="$CFLAGS"
 ```
 Again, if you have your toolchain in a more permanent location, replace the `$("CC")` with the location of the gcc compiler. And hard code the `CFLAGS` from the [compiler section](#compiling-for-milk-v-duo).
 
