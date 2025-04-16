@@ -16,7 +16,7 @@ index 77886dd..7da0b2e 100644
    EXE=.exe
  else
 -  CROSS_PREFIX?=
-+  CROSS_PREFIX?=/workspace/wasm3/platforms/openwrt/build/host-tools/gcc/riscv64-linux-musl-x86_64/bin/riscv64-unknown-linux-musl-
++  CROSS_PREFIX?=~/host-tools/gcc/riscv64-linux-musl-x86_64/bin/riscv64-unknown-linux-musl-
    EXE=
  endif
  
