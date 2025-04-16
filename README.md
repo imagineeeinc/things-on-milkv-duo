@@ -12,6 +12,7 @@ This is a guide/ write up on getting things working on the the Milk V Duo. This 
 - [WASM on Duo](#wasm-on-milk-v-duo) (**Status**: Working, more testing 🟨)
 - [Nim on Duo](#nim-on-milk-v-duo) (**Status**: Working, testing required ✅)
 - [Rust on Duo](#rust-on-milk-v-duo) (**Status**: Working, I haven't tested ✅)
+- [Go on Duo](#go-on-milk-v-duo) (**Status**: Working, more testing 🟨)
 - [Contributing](#contributing)
 
 ## OS Image requirements
@@ -55,6 +56,8 @@ I think the official compiler has a custom extra config for that specific cpu.
 This section isn't a guide. I am just accumlating info.
 
 Simpily use the toolchain from the [compiler section](#compiling-for-milk-v-duo). Use the compiler provided at `host-tools/gcc/riscv64-linux-musl-x86_64/bin/riscv64-unknown-linux-musl-gcc` and use the [compiler flags](#cflags) for the Milk V Duo specifically.
+
+I think if you compile for riscv64 but ask it to build static, you can ignore the `CFLAGS` which set custom cpu and cpu version flags.
 
 ### Programs
 
@@ -144,6 +147,22 @@ In conculsion, you have to do is use the riscv64 musl toolchain c compiler and  
 ## Rust on Milk V Duo
 
 [github.com/ejortega/milkv-duo-rust](https://github.com/ejortega/milkv-duo-rust)
+
+## Go on Milk V Duo
+
+After reading a bit online, it seems like go has the best cross compilation system. All you do is ask the go compiler to build for a diffrent arch.
+No having to ask it to use a diffent compiler, no custom configs and linking and custom flags.
+
+All you do is set `GOOS` to `linux` and `GOARCH` to `riscv64`.
+
+```bash
+env GOOS=linux GOARCH=riscv64 go build
+```
+
+Because go builds static binaries by default, it dosen't need any custom custom flags and cpu version. However the downside is larger binaries.
+
+Also, to run go binaries on the duo, you need all the 64 mb of ram. If you are using the default official image, the ram is limited to ~23mb, some of it is allocated to camera processing.
+You can disable it by building your own version and setting `ION` to 0, mentiond [here](https://github.com/milkv-duo/duo-buildroot-sdk?tab=readme-ov-file#faqs).
 
 ## Contributing
 
