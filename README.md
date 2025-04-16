@@ -37,7 +37,7 @@ Here is the custom `CFLAGS` if you want to hardcode it:
 ```
 **Note**: This is only for the Milk V Duo 64mb version. For other models, look at the [setup script](https://github.com/milkv-duo/duo-examples/blob/main/envsetup.sh) for their respective flags.
 
-## Acquiring Other Compilers
+### Acquiring Other Compilers
 
 I have found some other compilers that might also work, ~~I haven't tested them~~ and after testing I couldn't get any of them to work.
 - ⛔ [toolchains.bootlin.com/releases_riscv64.html](https://toolchains.bootlin.com/releases_riscv64.html): Ensure to get the `musl` version if you are compiling for the default buildroot os.
