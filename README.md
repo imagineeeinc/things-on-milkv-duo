@@ -64,7 +64,18 @@ Some C programs I have got compiled.
 
 An LLM inference in pure C. Edited the Makefile to not overwrite the compiler and added the CFLAGS and compiled without an issue.
 Uploaded the executable, tokens.bin and the smallest model it recommends and took 0.25 tokens per second, 11 mins to generate a small story.
-I posted about it [here](https://mastodon.social/@imagineee/114342880196230040) 
+I posted about it [here](https://mastodon.social/@imagineee/114342880196230040)
+
+#### [QuickJS](https://bellard.org/quickjs/)
+
+A JS interpreter with ES2023 support. For this compiling took some trial and error. I modified the Makefile to use my C Flags and had to add a library.
+I wasn't able to get it working with the version string being injected into the source, so I just hard coded it.
+You can apply my patch to the [Github Mirror](https://github.com/bellard/quickjs), ensure your `PREFIX` is set to a temp location you want to store the files.
+Ensure to set the `CROSS_PREFIX` enviornment variable to the toolchain prefix (like this: `host-tools/gcc/riscv64-linux-musl-x86_64/bin/riscv64-unknown-linux-musl-`, point to your actual location and keep the ending blank, removing the gcc).
+And run `make qjs` and `make install`. Go to the location of install and transfer the files to the duo and place the contents in the corresponding directories in `/usr/local`.
+
+Also I ran [calculating Pi](https://bellard.org/quickjs/pi.html) on the the Duo with quickjs.
+For 100,000 numbers it takes 26.16 seconds to complete. Which 100 times slower than the benchmark on a Core i5 4570 CPU at 3.2 GHz.
 
 ## WASM on Milk V Duo
 
