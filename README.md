@@ -56,6 +56,16 @@ This section isn't a guide. I am just accumlating info.
 
 Simpily use the toolchain from the [compiler section](#compiling-for-milk-v-duo). Use the compiler provided at `host-tools/gcc/riscv64-linux-musl-x86_64/bin/riscv64-unknown-linux-musl-gcc` and use the [compiler flags](#cflags) for the Milk V Duo specifically.
 
+### Programs
+
+Some C programs I have got compiled.
+
+#### [llama2.c](https://github.com/karpathy/llama2.c)
+
+An LLM inference in pure C. Edited the Makefile to not overwrite the compiler and added the CFLAGS and compiled without an issue.
+Uploaded the executable, tokens.bin and the smallest model it recommends and took 0.25 tokens per second, 11 mins to generate a small story.
+I posted about it [here](https://mastodon.social/@imagineee/114342880196230040) 
+
 ## WASM on Milk V Duo
 
 I think that wasm will make it easier to port programs to these more obscure architectures by using **WASM (Web Assembly)** as a universal binary format.
