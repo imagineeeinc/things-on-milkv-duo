@@ -9,10 +9,14 @@ This is a guide/ write up on getting things working on the the Milk V Duo. This 
   - [C Flags](#cflags)
   - [Other Compiler](#acquiring-other-compilers) (**Status**: Non of them working ⛔)
 - [C on Duo](#wasm-on-milk-v-duo) (**Status**: Working, Offical Method ✅)
+  - [Programs](#programs)
 - [WASM on Duo](#wasm-on-milk-v-duo) (**Status**: Working, more testing 🟨)
+  - [Programs](#programs-1)
 - [Nim on Duo](#nim-on-milk-v-duo) (**Status**: Working, testing required ✅)
+  - [Programs](#programs-2)
 - [Rust on Duo](#rust-on-milk-v-duo) (**Status**: Working, I haven't tested ✅)
-- [Go on Duo](#go-on-milk-v-duo) (**Status**: Working, more testing 🟨)
+- [Go on Duo](#go-on-milk-v-duo) (**Status**: Working, more testing ✅)
+  - [Programs](#programs-3)
 - [Contributing](#contributing)
 
 ## OS Image requirements
@@ -142,9 +146,10 @@ sys     0m 0.08s
 ```
 
 Approximately 10 times reduction in speed.  
-### Trying out programs
 
-So, I have been trying to get some programs working on the board. The kinda hard part is that I have to compile .wasm files from scratch as no one provides me a binary.
+### Programs
+
+Some WASM programs I have got compiled. The kinda hard part is that I have to compile .wasm files from scratch as no one provides me a binary.
 Secondly, most wasm projects is for the browser, actual cli projects are few. So, would need to build a wrapper around it.
 
 #### [Cowsays](https://github.com/wapm-packages/cowsay)
@@ -186,7 +191,15 @@ Again, if you have your toolchain in a more permanent location, replace the `$("
 
 The compiler produces an executable that will not run on the host system, but runs on the MilkV.
 
-In conculsion, you have to do is use the riscv64 musl toolchain c compiler and  the custom C compiler flags used for the MilkV Duo.
+In conculsion, all you have to do is use the riscv64 musl toolchain c compiler and  the custom C compiler flags used for the MilkV Duo.
+
+### Programs
+
+Some Nim programs I have got compiled.
+
+#### [rover](https://github.com/imagineeeinc/rover)
+
+A terminal file browser that I am working on. Had to copy the default config file and it runs fine.
 
 ## Rust on Milk V Duo
 
@@ -207,6 +220,18 @@ Because go builds static binaries by default, it dosen't need any custom custom 
 
 Also, to run go binaries on the duo, you need all the 64 mb of ram. If you are using the default official image, the ram is limited to ~23mb, some of it is allocated to camera processing.
 You can disable it by building your own version and setting `ION` to 0, mentiond [here](https://github.com/milkv-duo/duo-buildroot-sdk?tab=readme-ov-file#faqs).
+
+### Programs
+
+Some golang programs I have got compiled.
+
+#### [Wazero](https://github.com/tetratelabs/wazero)
+
+Mentiond in the [wasm interpreter section](#wazero).
+
+#### [Glow](https://github.com/charmbracelet/glow)
+
+A terminal markdown viewer. I use this all the time when viewing docs and readmes in the terminal. Compiling was so simple. And it runs, I have nothing else much to say.
 
 ## Contributing
 
