@@ -87,9 +87,8 @@ Specially with the rise of the [WASI (Web Assembley System Interface)](https://w
 
 ### WASM Interpreters
 
-So far WASM interpreters I might port are Wasmer, Wasmtime, Wasmedge and [Wasm3](https://github.com/wasm3/wasm3).
-I have got **Wasm3** compiled as it was the easiest to compile.
-I would like to get the other working, but as of now the wasm3 is the easiest to compile.
+So far WASM interpreters I would like to port a few of them, including: Wasmer, Wasmtime, Wasmedge, [wazero](https://github.com/tetratelabs/wazero) and [Wasm3](https://github.com/wasm3/wasm3).
+The reason for multiple is to get the max perfomance and some have varying levels of api support.
 
 #### Wasm3
 
@@ -98,6 +97,51 @@ I would like to get the other working, but as of now the wasm3 is the easiest to
 Simpily setup the toolcahin ([from before](#compiling-for-duo)) and run `make` in the `/platforms/openwrt/build` (actual cli code is in `platforms/app`, and interpreter in `/source`), no modifications required.
 If you try running the resulting `wasm3` binary on your host platform you will get an error, but copying to the MilkV and trying will result in the application giving you a proper message.
 
+#### Wazero
+
+[Wazero](https://github.com/tetratelabs/wazero) is a go based WASM runtime with wasi support. Compiling was as wasy as [Compiling with Go for the Duo](#go-on-milk-v-duo).
+Simply cd into the `cmd/wazero` directory and run `env GOOS=linux GOARCH=riscv64 go build`, and you get a resulting binary.
+
+However, when it comes to performance wazero is really bad, and I think it steams from the fact it is written in go and thus runs a garbage collector at runtime and leads to slower perfomance (I think).
+
+Here is the result comparing wasm3 and wazero.
+
+```
+[root@milkv-duo]~# time wasm3 cowsay.wasm -f tux hello
+ _______
+< hello >
+ -------
+   \
+    \
+        .--.
+       |o_o |
+       |:_/ |
+      //   \ \
+     (|     | )
+    /'\_   _/`\
+    \___)=(___/
+real    0m 0.06s
+user    0m 0.03s
+sys     0m 0.01s
+[root@milkv-duo]~# time wazero run cowsay.wasm -f tux hello
+ _______
+< hello >
+ -------
+   \
+    \
+        .--.
+       |o_o |
+       |:_/ |
+      //   \ \
+     (|     | )
+    /'\_   _/`\
+    \___)=(___/
+real    0m 0.64s
+user    0m 0.54s
+sys     0m 0.08s
+```
+
+Approximately 10 times reduction in speed.  
 ### Trying out programs
 
 So, I have been trying to get some programs working on the board. The kinda hard part is that I have to compile .wasm files from scratch as no one provides me a binary.
